@@ -2,6 +2,8 @@
 
 A full-screen study workspace that runs as a static website, installable web app, or Chrome/Edge extension.
 
+Live site: https://maybe4rsalaan.github.io/study-buddy/
+
 ## Student features
 
 - Organize courses with colors, short codes, and notes
