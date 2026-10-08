@@ -1,0 +1,15 @@
+{
+  "id": "study-buddy-workspace",
+  "name": "Study Buddy — Student workspace",
+  "short_name": "Study Buddy",
+  "description": "A calm, private workspace for courses, assignments, study files, and focus sessions.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#101d36",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
