@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101d36">
+    <meta name="description" content="A calm, private workspace for courses, assignments, study files, and focus sessions.">
+    <title>Study Buddy — Student workspace</title>
+    <link rel="manifest" href="web-manifest.json">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body>
+    <div class="app-frame">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" aria-label="Study Buddy home">
+          <span class="brand-symbol">✦</span>
+          <span><strong>study buddy</strong><small>YOUR STUDY SPACE</small></span>
+        </a>
+        <div class="workspace-label">WORKSPACE</div>
+        <nav class="primary-nav" aria-label="Main navigation">
+          <button class="nav-link active" data-page="dashboard"><span class="nav-icon">⌂</span><span>Overview</span></button>
+          <button class="nav-link" data-page="tasks"><span class="nav-icon">▤</span><span>Tasks</span><span id="nav-task-count" class="nav-count">0</span></button>
+          <button class="nav-link" data-page="courses"><span class="nav-icon">▦</span><span>Courses</span></button>
+          <button class="nav-link" data-page="materials"><span class="nav-icon">▱</span><span>Materials</span></button>
+          <button class="nav-link" data-page="planner"><span class="nav-icon">▧</span><span>Planner</span></button>
+          <button class="nav-link" data-page="focus"><span class="nav-icon">◷</span><span>Focus room</span></button>
+          <button class="nav-link settings-link" data-page="settings"><span class="nav-icon">⚙</span><span>Settings & backup</span></button>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="privacy-card"><span class="privacy-lock">◈</span><div><strong>Your space stays yours</strong><p>Files and study data stay in this browser.</p></div></div>
+        <div class="sidebar-user"><div class="avatar">S</div><div><strong>Student workspace</strong><small>Personal study space</small></div><span class="user-more">···</span></div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="breadcrumb"><span>My workspace</span><span class="crumb-sep">/</span><strong id="current-section">Overview</strong></div>
+          <div class="top-actions">
+            <label class="search-box"><span>⌕</span><input id="global-search" type="search" placeholder="Search your study space…" aria-label="Search courses, tasks, and materials"><kbd>⌘ K</kbd></label>
+            <button id="top-add-button" class="button button-primary" type="button"><span>＋</span> Add study item</button>
+          </div>
+        </header>
+        <div id="global-search-results" class="search-results" hidden></div>
+        <div id="view-container" class="view-container"></div>
+      </main>
+    </div>
+
+    <dialog id="task-dialog" class="modal">
+      <form id="task-form" class="modal-content">
+        <div class="modal-head"><div><p class="eyebrow">KEEP IT MOVING</p><h2 id="task-dialog-title">Add a study item</h2></div><button class="icon-btn" type="button" data-close="task-dialog" aria-label="Close">×</button></div>
+        <input id="task-id" type="hidden">
+        <label class="form-label" for="task-title">What do you need to do?</label>
+        <input class="text-input" id="task-title" type="text" maxlength="120" placeholder="e.g. Finish relational algebra exercises" required>
+        <div class="two-col">
+          <label><span class="form-label">Course</span><select id="task-course" class="text-input"></select></label>
+          <label><span class="form-label">Item type</span><select id="task-type" class="text-input"><option>Assignment</option><option>Exam</option><option>Reading</option><option>Revision</option><option>Project</option><option>Personal goal</option></select></label>
+        </div>
+        <div class="two-col">
+          <label><span class="form-label">Deadline</span><input class="text-input" id="task-date" type="date"></label>
+          <label><span class="form-label">Priority</span><select id="task-priority" class="text-input"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select></label>
+        </div>
+        <div class="two-col">
+          <label><span class="form-label">Estimated effort</span><select id="task-effort" class="text-input"><option value="30">30 minutes</option><option value="60" selected>1 hour</option><option value="90">1.5 hours</option><option value="120">2 hours</option><option value="180">3 hours</option></select></label>
+          <label class="checkbox-label"><input id="task-repeat" type="checkbox"><span>Repeats weekly</span></label>
+        </div>
+        <label class="form-label" for="task-notes">Notes <span class="optional">optional</span></label>
+        <textarea class="text-input text-area" id="task-notes" rows="3" placeholder="Add instructions, links, or the next step…"></textarea>
+        <div class="modal-actions"><button class="button button-soft" type="button" data-close="task-dialog">Cancel</button><button class="button button-primary" type="submit">Save study item <span>↗</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="course-dialog" class="modal">
+      <form id="course-form" class="modal-content">
+        <div class="modal-head"><div><p class="eyebrow">ORGANIZE YOUR TERM</p><h2 id="course-dialog-title">Add a course</h2></div><button class="icon-btn" type="button" data-close="course-dialog" aria-label="Close">×</button></div>
+        <input id="course-id" type="hidden">
+        <label class="form-label" for="course-name">Course name</label><input class="text-input" id="course-name" type="text" maxlength="70" placeholder="e.g. Introduction to Biology" required>
+        <div class="two-col"><label><span class="form-label">Short code</span><input class="text-input" id="course-code" type="text" maxlength="12" placeholder="Optional"></label><label><span class="form-label">Color</span><select class="text-input" id="course-color"><option value="blue">Blue</option><option value="violet">Violet</option><option value="mint">Mint</option><option value="amber">Amber</option><option value="rose">Rose</option></select></label></div>
+        <label class="form-label" for="course-description">Instructor or notes <span class="optional">optional</span></label><textarea class="text-input text-area" id="course-description" rows="2" placeholder="Office hours, room, or course notes"></textarea>
+        <div class="modal-actions"><button class="button button-soft" type="button" data-close="course-dialog">Cancel</button><button class="button button-primary" type="submit">Save course <span>↗</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="upload-dialog" class="modal">
+      <form id="upload-form" class="modal-content">
+        <div class="modal-head"><div><p class="eyebrow">YOUR MATERIALS</p><h2>Add study files</h2></div><button class="icon-btn" type="button" data-close="upload-dialog" aria-label="Close">×</button></div>
+        <label class="upload-drop" for="file-input"><span class="upload-symbol">↑</span><strong>Choose files or drop them here</strong><small>PDFs, slides, notes, images, and more · up to 25 MB per file</small><input id="file-input" type="file" multiple></label>
+        <label class="form-label" for="upload-course">Attach to a course</label><select id="upload-course" class="text-input"></select>
+        <label class="form-label" for="upload-task">Link to a task <span class="optional">optional</span></label><select id="upload-task" class="text-input"></select>
+        <p class="local-note">Files are kept in this browser’s private storage. They aren’t sent to the public website.</p>
+        <div class="modal-actions"><button class="button button-soft" type="button" data-close="upload-dialog">Cancel</button><button class="button button-primary" type="submit">Add to materials <span>↗</span></button></div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
