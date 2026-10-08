@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Study Buddy — Study Tracker",
+  "version": "2.0.0",
+  "description": "A full-screen study workspace for courses, tasks, private files, and deadline reminders.",
+  "permissions": ["storage", "alarms", "notifications"],
+  "icons": { "128": "icon.png" },
+  "action": {
+    "default_title": "Study Buddy",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
